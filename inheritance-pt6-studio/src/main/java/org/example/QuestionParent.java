@@ -1,8 +1,5 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public abstract class QuestionParent {
 
     private static int idCounter = 1;
@@ -19,8 +16,6 @@ public abstract class QuestionParent {
     public QuestionParent() {
     }
 
-
-
     public Long getId() {
         return id;
     }
@@ -29,11 +24,12 @@ public abstract class QuestionParent {
         return question;
     }
 
+    /** Use regex to remove brackets from strings **/
     public static String removeBrackets(String clean) {
-        String removedBrackets = clean.replaceAll("[\\[\\](){}]", "");
-        return removedBrackets;
+        return clean.replaceAll("[\\[\\](){}]", "");
     }
 
+    /** Require all children of QuestionParent to use this method **/
     public abstract QuestionParent makeTestQuestion();
 
 }

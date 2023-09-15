@@ -4,6 +4,9 @@ import java.util.*;
 
 public class CheckBox extends QuestionParent {
 
+    // TODO: We only need to use the HashMap and don't need a List since we are using the key to store if the answer is correct
+    // To change this will break a lot of code, this is a bad design choice, but one to learn from
+    // Next time, use HashMap only, and store multiple values in it since we only need to check the Boolean for correct or incorrect
     List<HashMap<Boolean, String>> answers = new ArrayList<>();
 
     public CheckBox(String question, List<HashMap<Boolean, String>> answers) {
@@ -18,9 +21,6 @@ public class CheckBox extends QuestionParent {
         return answers;
     }
 
-    public void setAnswers(List<HashMap<Boolean, String>> answers) {
-        this.answers = answers;
-    }
 
     /** We need to instantiate a Scanner object in the class **/
     Scanner menuInput = new Scanner(System.in);
@@ -63,6 +63,7 @@ public class CheckBox extends QuestionParent {
 
         /** Create answers to question with while true loop **/
         while (true) {
+            /** If statement to handle answerList size, requires a minimum of 3 answers and a maximum of 8 **/
             if (answerList.size() < 3) {
                 System.out.println("Select 3 at any time to view all your answers\nPlease enter an answer for...\n'" + questionAnswer + "'\n");
             } else if (answerList.size() < 8) {
@@ -73,6 +74,7 @@ public class CheckBox extends QuestionParent {
 
             String answerText = menuInput.nextLine();
 
+            /** Enter 3 to view all the answers you have submitted so far **/
             if (Objects.equals(answerText, "3")) {
                 Integer count = 1;
                 System.out.println();
@@ -85,20 +87,20 @@ public class CheckBox extends QuestionParent {
                 continue;
             }
             if (Objects.equals(answerText, "4") && answerList.size() >= 3) {
-                // Break out of the while true loop
+                // Break out of the while true loop if you have at least 3 answers
                 break;
             }
             if (Objects.equals(answerText, "0")) {
                 return null;
             }
 
+            /** If the answer is correct, change the key to true **/
             boolean answerStatus = false;
             System.out.println("\nIs this a correct answer to the question?\n1 for yes, 2 for no.");
             String response = menuInput.nextLine();
             if (Objects.equals(response, "1")) {
                 answerStatus = true;
             } else if (Objects.equals(response, "2")) {
-                answerStatus = false;
             }
 
             System.out.println("\nAlright so this answer is: " + (answerStatus ? "True" : "False") + "\nThe answer you wrote is: " + answerText + "\n\nIf this is correct, select 1 for yes, 2 for no.");

@@ -19,7 +19,7 @@ public class TrueFalse extends QuestionParent{
         return answer;
     }
 
-    /** We need to instantiate a Scanner object in the class **/
+    /** Instantiate scanner for TRUEFALSE makeTestQuestion method **/
     Scanner menuInput = new Scanner(System.in);
 
     public TrueFalse makeTestQuestion() {
@@ -53,6 +53,7 @@ public class TrueFalse extends QuestionParent{
             }
         }
 
+        /** Store the question as true or false **/
         System.out.println("Is this question true or false?\n1 = true, 2 = false");
         String answer = menuInput.nextLine();
         Boolean finalAnswer = false;
@@ -62,7 +63,7 @@ public class TrueFalse extends QuestionParent{
             finalAnswer = true;
         }
         if (Objects.equals(answer, "2")) {
-            System.out.println("Great! So your question is...\nQuestion: " + questionAnswer + "\nAnswer: False\n\nIs this correct? Press 1 for yes, 2 for no.");
+            System.out.println("So your question is...\nQuestion: " + questionAnswer + "\nAnswer: False\n\nIs this correct? Press 1 for yes, 2 for no.");
         }
 
         String setTestQuestion = menuInput.nextLine();

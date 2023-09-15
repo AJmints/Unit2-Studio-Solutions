@@ -4,13 +4,13 @@ import java.util.*;
 
 public class TestEntity {
 
-    private int idCount = 1;
+    private static int idCount = 1;
     private Long id = 0L;
     private String name;
     private List<QuestionParent> questions = new ArrayList<>();
 
     public TestEntity(String name, List<QuestionParent> questions) {
-        this.id = (long) idCount++; // Casting example
+        this.id = (long) idCount++; // Casting example, convert our int into a long
         this.name = name;
         this.questions = questions;
     }
@@ -34,60 +34,50 @@ public class TestEntity {
         return questions;
     }
 
-    public void setQuestions(List<QuestionParent> questions) {
-        this.questions = questions;
-    }
-
-
+    /** Grade the test the user took, requires a list of HashMaps that consist of the user input
+     * Requires a TestEntity to get the count of total answers **/
+    // TODO: Change TestEntity to an int, and pass in the number from Main.
+    // We can dry our code by passing in the total from main and not the TestEntity itself.
     public static void gradeTest (List<HashMap<Boolean, String>> toGrade, TestEntity testEntity) {
 
-        System.out.println(toGrade.size() + ": Is how many question answers live in user Test Input");
+        int testTotalScoreBase = 0;
+        int userScore = 0;
 
-        List<HashMap<Boolean, String>> allCheckBoxQuestions = new ArrayList<>();
-        Integer maxScore = 0;
-        Integer userScore = 0;
-
-        System.out.println("\nAnswers from the test");
+        /** Count the total correct questions in the Test **/
         for (QuestionParent answer : testEntity.getQuestions()) {
             if (answer.getClass() == CheckBox.class) {
-//                maxScore++;
-                allCheckBoxQuestions.addAll(((CheckBox) answer).getAnswers());
+                for (HashMap<Boolean, String> answers : ((CheckBox) answer).getAnswers()) {
+                    if(Objects.equals(QuestionParent.removeBrackets(answers.keySet().toString()), "true")) {
+                        testTotalScoreBase++;
+                    }
+                }
             }
             if (answer.getClass() == MultipleChoice.class) {
-//                maxScore++;
-                allCheckBoxQuestions.addAll(((MultipleChoice) answer).getAnswers());
+                testTotalScoreBase++;
             }
-        }
-        for (HashMap<Boolean, String> item : allCheckBoxQuestions) {
-            if (Objects.equals(QuestionParent.removeBrackets(item.keySet().toString()), "true")) {
-                maxScore++;
+            if (answer.getClass() == TrueFalse.class) {
+                testTotalScoreBase++;
             }
         }
 
-        System.out.println("\nAnswers from user");
+        /** Count all the answers the user got correct **/
         for (HashMap<Boolean, String> answers : toGrade) {
+            /** TRUEFALSE have a value of Correct or Incorrect, based on that we can assign the point **/
             if (Objects.equals(QuestionParent.removeBrackets(answers.values().toString()), "Correct")) {
-//                maxScore++;
                 userScore++;
             } else if (Objects.equals(QuestionParent.removeBrackets(answers.values().toString()), "Incorrect")) {
-//                maxScore++;
             } else {
+                /** MultipleChoice and CheckBox have their answers as hashmaps, if one is true, it's correct and add the point, else it is incorrect and no point. **/
                 if (Objects.equals(QuestionParent.removeBrackets(answers.keySet().toString()), "true")) {
                     System.out.println();
-//                    maxScore++;
                     userScore++;
                 } else if (Objects.equals(QuestionParent.removeBrackets(answers.keySet().toString()), "false")) {
-//                    maxScore++;
                 }
         }
         }
 
-        /** Trying to get a steady and consistent score number **/
-        /** Trying to get a steady and consistent score number **/
-        /** Trying to get a steady and consistent score number **/
-        /** Trying to get a steady and consistent score number **/
-
-        System.out.println("\nMaxScore: " + maxScore + "\nUserScore: " + userScore);
+        double score = (double) userScore / testTotalScoreBase * 100;
+        System.out.println("\nMaxScore: " + testTotalScoreBase + "\nUserScore: " + userScore + "\nPercent: " + score + "\n");
 
 
 
@@ -179,6 +169,30 @@ public class TestEntity {
         checkBox9answers.add(checkBox9Cb7);
         CheckBox checkBox9 = new CheckBox("Never gonna give", checkBox9answers);
 
+        List<HashMap<Boolean, String>> checkBox10answers = new ArrayList<>();
+        HashMap<Boolean, String> checkBox10Cb1 = new HashMap<>();
+        checkBox10Cb1.put(true, "Polymorphism");
+        checkBox10answers.add(checkBox10Cb1);
+        HashMap<Boolean, String> checkBox10Cb2 = new HashMap<>();
+        checkBox10Cb2.put(false, "Deconstruction");
+        checkBox10answers.add(checkBox10Cb2);
+        HashMap<Boolean, String> checkBox10Cb3 = new HashMap<>();
+        checkBox10Cb3.put(true, "Inheritance");
+        checkBox10answers.add(checkBox10Cb3);
+        HashMap<Boolean, String> checkBox10Cb4 = new HashMap<>();
+        checkBox10Cb4.put(false, "Instantiation");
+        checkBox10answers.add(checkBox10Cb4);
+        HashMap<Boolean, String> checkBox10Cb5 = new HashMap<>();
+        checkBox10Cb5.put(true, "Abstraction");
+        checkBox10answers.add(checkBox10Cb5);
+        HashMap<Boolean, String> checkBox10Cb6 = new HashMap<>();
+        checkBox10Cb6.put(true, "Encapsulation");
+        checkBox10answers.add(checkBox10Cb6);
+        HashMap<Boolean, String> checkBox10Cb7 = new HashMap<>();
+        checkBox10Cb7.put(false, "Keys, Phone, Wallet, Watch");
+        checkBox10answers.add(checkBox10Cb7);
+        CheckBox checkBox10 = new CheckBox("What are the 4 pillars of Object Oriented Programming?", checkBox10answers);
+
 
         defaultTest.add(multipleChoice1);
         defaultTest.add(multipleChoice2);
@@ -188,6 +202,7 @@ public class TestEntity {
         defaultTest.add(trueFalse6);
         defaultTest.add(trueFalse7);
         defaultTest.add(trueFalse8);
+        defaultTest.add(checkBox10);
         defaultTest.add(checkBox9);
 
 
