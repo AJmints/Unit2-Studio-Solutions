@@ -13,6 +13,9 @@ public class Main {
     public static List<QuestionParent> allTestQuestions = new ArrayList<>();
     public static List<TestEntity> allTests = new ArrayList<>();
 
+    int num1 = 1;
+
+
 
     public static void main(String[] args) {
         System.out.println("Let's make a quiz application!\n");
@@ -104,6 +107,11 @@ public class Main {
 
             /** 5. Make your own Test **/
             if (Objects.equals(choice, "5")) {
+
+//                this.id = id++;
+
+
+
                 /** TODO: If you want to create the method (makeYourOwnTest), you are welcome to give it a shot!
                  * The requirements are...
                  * Take test answers from the allTestQuestions List you want to include in your test and store them in a new List
