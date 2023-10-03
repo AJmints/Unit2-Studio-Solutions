@@ -51,6 +51,7 @@ public class Main {
             }
             if (choice == 0) {
                 System.out.println("\nApp is terminating\n......\n.....\n...\n..\n.\n.");
+                return;
             }
 
         }
