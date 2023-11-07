@@ -117,6 +117,9 @@ textarea {
   font: inherit;
   color: inherit;
 }
+.authform {
+    margin: 7rem;
+}
 button {
   overflow: visible;
 }
